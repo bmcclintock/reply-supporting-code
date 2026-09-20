@@ -1,8 +1,9 @@
 source("helpers/jointLangevin.R")
 
 scenario <- "TwoPatchRepel"
+if(!dir.exists(scenario)) dir.create(scenario)
 
-nSims <- 50
+nSims <- 100
 
 betaCoeff <- c(2,-0.5,-0.5,2) # habitat selection coefficients
 sig <- c(1,1) # speed parameter
