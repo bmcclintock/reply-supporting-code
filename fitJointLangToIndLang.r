@@ -150,12 +150,14 @@ colnames(xdf)[7] <- "Coverage"
 vp <- cbind(xResults_est, sigResults_est)
 colnames(vp) <- c("beta_1,1","beta_1,2","beta_2,1","beta_2,2","sigma_1","sigma_2")
 pdf(paste0(scenario,"/JointToIndResults_beta",paste0(betaCoeff,collapse="_"),"_sigma",paste0(sig,collapse="_"),'_gradscale',grad_scale,ifelse(statesKnown,"_statesKnown",""),".pdf"),width=11,height=8)
-vioplot::vioplot(vp,ylim=c(-0.5,3))
+par(cex.axis = 2)
+vioplot::vioplot(vp, names = rep("", 6), ylim = c(-1,3))
 truevals <- c(betaCoeff,sig)
 for(i in 1:length(truevals)){
-  lines(c(i-1,i)+0.5,rep(truevals[i],2),col="red",lty=2,lwd=2)
+  lines(c(i-1,i)+0.5,rep(truevals[i],2),col="red",lty=2,lwd=3)
 }
+axis(1, at = 1:6, labels = expression(beta["1,1"], beta["1,2"], beta["2,1"], beta["2,2"], sigma[1], sigma[2]))
 dev.off()
 
-save(stateResults, timeInState1, xdf, xResults_est, sigResults_est, truevals, grad_scale,
+save(stateResults, timeInState1, xdf, xResults_est, xResults_lower, xResults_upper, sigResults_est, sigResults_lower, sigResults_upper, truevals, grad_scale,
      file=paste0(scenario,"/JointToInd_beta",paste0(betaCoeff,collapse="_"),"_sigma",paste0(sig,collapse="_"),'_gradscale',grad_scale,ifelse(statesKnown,"_statesKnown",""),".RData"))
